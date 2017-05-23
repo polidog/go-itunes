@@ -1,7 +1,6 @@
 package script
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -78,7 +77,6 @@ type AppleScript struct {
 }
 
 func (a AppleScript) Exec(command string) ([]byte, error) {
-	fmt.Println("osascript", a.path, command)
 	return exec.Command("osascript", a.path, command).Output()
 }
 
