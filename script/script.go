@@ -3,64 +3,90 @@ package script
 import (
 	"os/exec"
 	"runtime"
-	"errors"
+	"fmt"
+	"os"
+	"path/filepath"
+	"io/ioutil"
 )
 
 // script
 type Script interface {
-	GetFile() string
 	Exec(command string) ([]byte, error)
 }
 
-func NewScript() Script {
-	if runtime.GOOS == "windows" {
-		return WindowsScript{
-			File: "./win/iTunes.js",
-		}
-	} else if runtime.GOOS == "mac" {
-		return AppleScript{
-			File: "./mac/iTunesTransport.scpt",
-		}
-	}
-	return NilScript{
-		File: "",
-	}
+type ScriptFactory func(data []byte) (Script, error)
+
+
+var files = map[string]string{
+	"windows": "files/win/iTunes.js",
+	"darwin": "files/mac/ITunesTransport.scpt",
 }
 
+var factory = map[string]ScriptFactory{
+	"windows": newWindowsScript,
+	"darwin": newAppleScript,
+}
+
+func NewScript() (Script, error) {
+	data, err := Asset(files[runtime.GOOS])
+	if err != nil {
+		return nil, err
+	}
+	return factory[runtime.GOOS](data)
+}
+
+func newAppleScript(data []byte) (Script, error) {
+	path, err := createScriptFile("mac_itunes.scpt", data)
+	if err != nil {
+		return nil, err
+	}
+	return AppleScript{
+		path: path,
+	}, nil
+}
+
+func newWindowsScript(data []byte) (Script, error) {
+	path, err := createScriptFile("win_itunes.js", data)
+	if err != nil {
+		return nil, err
+	}
+
+	return WindowsScript{
+		path: path,
+	}, nil
+}
+
+func createScriptFile(name string, data []byte) (string, error) {
+	dir := os.TempDir()
+	path := filepath.Join(dir, name)
+	if exists(path) {
+		return path, nil
+	}
+	err := ioutil.WriteFile(path, data, 744)
+	if err != nil {
+		return "", err
+	}
+	return path, nil
+}
+
+func exists(filename string) bool {
+	_, err := os.Stat(filename)
+	return err == nil
+}
 
 type AppleScript struct {
-	File string
+	path string
 }
 
 func (a AppleScript) Exec(command string) ([]byte, error) {
-	return exec.Command("osascript", a.File, command).Output()
-}
-
-func (a AppleScript) GetFile() string {
-	return a.File
+	fmt.Println("osascript", a.path, command)
+	return exec.Command("osascript", a.path, command).Output()
 }
 
 type WindowsScript struct {
-	File string
+	path string
 }
 
 func (a WindowsScript) Exec(command string) ([]byte, error) {
-	return exec.Command("cscript", a.File, command).Output()
-}
-
-func (a WindowsScript) GetFile() string {
-	return a.File
-}
-
-type NilScript struct {
-	File string
-}
-
-func (a NilScript) Exec(command string) ([]byte, error) {
-	byte := make([]byte, 0)
-	return byte, errors.New("No support os.")
-}
-
-func (a NilScript) GetFile() string {
-	return a.File
+	return exec.Command("cscript -e", a.path, command).Output()
 }
