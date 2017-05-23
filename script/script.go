@@ -1,12 +1,12 @@
 package script
 
 import (
-	"os/exec"
-	"runtime"
 	"fmt"
-	"os"
-	"path/filepath"
 	"io/ioutil"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"runtime"
 )
 
 // script
@@ -16,15 +16,14 @@ type Script interface {
 
 type ScriptFactory func(data []byte) (Script, error)
 
-
 var files = map[string]string{
 	"windows": "files/win/iTunes.js",
-	"darwin": "files/mac/ITunesTransport.scpt",
+	"darwin":  "files/mac/ITunesTransport.scpt",
 }
 
 var factory = map[string]ScriptFactory{
 	"windows": newWindowsScript,
-	"darwin": newAppleScript,
+	"darwin":  newAppleScript,
 }
 
 func NewScript() (Script, error) {

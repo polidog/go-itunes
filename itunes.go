@@ -4,7 +4,6 @@ import "github.com/polidog/go-itunes/script"
 
 type ItunesCommand func() ([]byte, error)
 
-
 func Play() ([]byte, error) {
 	return exec("play")
 }
@@ -12,7 +11,6 @@ func Play() ([]byte, error) {
 func Pause() ([]byte, error) {
 	return exec("pause")
 }
-
 
 func Stop() ([]byte, error) {
 	return exec("stop")
