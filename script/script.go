@@ -17,7 +17,7 @@ type ScriptFactory func(data []byte) (Script, error)
 
 var files = map[string]string{
 	"windows": "files/win/iTunes.js",
-	"darwin":  "files/mac/ITunesTransport.applescript",
+	"darwin":  "files/mac/ITunesTransport.scpt",
 }
 
 var factory = map[string]ScriptFactory{
