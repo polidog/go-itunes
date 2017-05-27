@@ -60,7 +60,7 @@ func createScriptFile(name string, data []byte) (string, error) {
 	if exists(path) {
 		return path, nil
 	}
-	err := ioutil.WriteFile(path, data, 744)
+	err := ioutil.WriteFile(path, data, 777)
 	if err != nil {
 		return "", err
 	}
