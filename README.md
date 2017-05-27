@@ -8,5 +8,7 @@ inspired by [playback](https://github.com/jwalgran/playback).
 ## Using
 
 ```
-$ github.com/polidog/go-itunes
+$ go get github.com/polidog/go-itunes
+
+
 ```

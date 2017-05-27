@@ -48,6 +48,10 @@ func Fadein() (Result, error) {
 	return exec("facein")
 }
 
+func Exec(command string) (Result, error) {
+	return exec(command)
+}
+
 func exec(command string) (Result, error) {
 	script, err := script.NewScript()
 	result := Result{
