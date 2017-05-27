@@ -16,7 +16,7 @@ type Track struct {
 
 type Result struct {
 	Status       bool   `json:"status"`
-	PlayerStatus string `json:"player_status"`
+	PlayerState string `json:"player_state"`
 	Track        Track  `json:"track"`
 }
 
