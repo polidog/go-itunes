@@ -1,23 +1,23 @@
 package itunes
 
 import (
-	"github.com/polidog/go-itunes/script"
 	"encoding/json"
+	"github.com/polidog/go-itunes/script"
 )
 
 type ItunesCommand func() ([]byte, error)
 
 type Track struct {
-	Album string `json:"album"`
-	Artist string `json:"artist"`
+	Album    string `json:"album"`
+	Artist   string `json:"artist"`
 	Category string `json:"category"`
-	Time string `json:"time"`
+	Time     string `json:"time"`
 }
 
 type Result struct {
-	Status bool `json:"status"`
+	Status       bool   `json:"status"`
 	PlayerStatus string `json:"player_status"`
-	Track Track `json:"track"`
+	Track        Track  `json:"track"`
 }
 
 func Play() (Result, error) {
@@ -54,17 +54,16 @@ func exec(command string) (Result, error) {
 		return nil, err
 	}
 
-	str,execErr := script.Exec(command)
+	str, execErr := script.Exec(command)
 	if execErr != nil {
-		return nil, err
+		return nil, execErr
 	}
 
 	result := Result{}
 	jsonErr := json.Unmarshal(str, result)
 	if jsonErr != nil {
-		return nil,err
+		return nil, jsonErr
 	}
 
-	return result,nil
+	return result, nil
 }
-
