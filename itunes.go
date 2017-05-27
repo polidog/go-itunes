@@ -50,7 +50,9 @@ func Fadein() (Result, error) {
 
 func exec(command string) (Result, error) {
 	script, err := script.NewScript()
-	result := Result{}
+	result := Result{
+		Track: Track{},
+	}
 	if err != nil {
 		return result, err
 	}
