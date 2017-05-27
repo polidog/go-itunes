@@ -1,41 +1,70 @@
 package itunes
 
-import "github.com/polidog/go-itunes/script"
+import (
+	"github.com/polidog/go-itunes/script"
+	"encoding/json"
+)
 
 type ItunesCommand func() ([]byte, error)
 
-func Play() ([]byte, error) {
+type Track struct {
+	Album string `json:"album"`
+	Artist string `json:"artist"`
+	Category string `json:"category"`
+	Time string `json:"time"`
+}
+
+type Result struct {
+	Status bool `json:"status"`
+	PlayerStatus string `json:"player_status"`
+	Track Track `json:"track"`
+}
+
+func Play() (Result, error) {
 	return exec("play")
 }
 
-func Pause() ([]byte, error) {
+func Pause() (Result, error) {
 	return exec("pause")
 }
 
-func Stop() ([]byte, error) {
+func Stop() (Result, error) {
 	return exec("stop")
 }
 
-func Next() ([]byte, error) {
+func Next() (Result, error) {
 	return exec("next")
 }
 
-func Previous() ([]byte, error) {
+func Previous() (Result, error) {
 	return exec("previous")
 }
 
-func Fadeout() ([]byte, error) {
+func Fadeout() (Result, error) {
 	return exec("fadeout")
 }
 
-func Fadein() ([]byte, error) {
+func Fadein() (Result, error) {
 	return exec("facein")
 }
 
-func exec(command string) ([]byte, error) {
+func exec(command string) (Result, error) {
 	script, err := script.NewScript()
 	if err != nil {
 		return nil, err
 	}
-	return script.Exec(command)
+
+	str,execErr := script.Exec(command)
+	if execErr != nil {
+		return nil, err
+	}
+
+	result := Result{}
+	jsonErr := json.Unmarshal(str, result)
+	if jsonErr != nil {
+		return nil,err
+	}
+
+	return result,nil
 }
+
