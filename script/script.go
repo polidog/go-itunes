@@ -34,7 +34,7 @@ func NewScript() (Script, error) {
 }
 
 func newAppleScript(data []byte) (Script, error) {
-	path, err := createScriptFile("mac_itunes.scpt", data)
+	path, err := createScriptFile("mac_itunes.js", data)
 	if err != nil {
 		return nil, err
 	}
