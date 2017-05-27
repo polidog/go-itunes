@@ -50,19 +50,20 @@ func Fadein() (Result, error) {
 
 func exec(command string) (Result, error) {
 	script, err := script.NewScript()
+	result := Result{}
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 
 	str, execErr := script.Exec(command)
 	if execErr != nil {
-		return nil, execErr
+		return result, execErr
 	}
 
-	result := Result{}
+
 	jsonErr := json.Unmarshal(str, result)
 	if jsonErr != nil {
-		return nil, jsonErr
+		return result, jsonErr
 	}
 
 	return result, nil
