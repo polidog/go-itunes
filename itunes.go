@@ -63,7 +63,7 @@ func exec(command string) (Result, error) {
 	}
 
 
-	jsonErr := json.Unmarshal(str, result)
+	jsonErr := json.Unmarshal(str, &result)
 	if jsonErr != nil {
 		return result, jsonErr
 	}
