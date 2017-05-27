@@ -19,7 +19,7 @@ func main() {
 
 	fmt.Println("status:", res.Status)
 	fmt.Println("player_state:", res.PlayerState)
-	if res.Track {
+	if res.Track != nil {
 		fmt.Println("----------track-----------")
 		fmt.Println("Album:", res.Track.Album)
 		fmt.Println("Artist:", res.Track.Artist)
