@@ -3,6 +3,7 @@ package script
 import (
 	"testing"
 	"reflect"
+	"runtime"
 )
 
 func TestNewScript(t *testing.T) {
@@ -10,37 +11,31 @@ func TestNewScript(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	//fmt.Println(reflect.TypeOf(script) )
-	if reflect.TypeOf(script).Name() != "AppleScript" {
-		t.Error("script not created.")
-	}
-}
 
-func TestNewAppleScript(t *testing.T) {
-	data := make([]byte, 0)
-	script, err := newAppleScript(data)
-	if err != nil {
-		t.Error(err)
-	}
-	if reflect.TypeOf(script).Name() != "AppleScript" {
-		t.Error("script not AppleScript.")
-	}
-}
+	name := reflect.TypeOf(script).Name() 
 
-func TestNewWindowsScript(t *testing.T) {
-	data := make([]byte, 0)
-	script, err := newWindowsScript(data)
-	if err != nil {
-		t.Error(err)
-	}
-	if reflect.TypeOf(script).Name() != "WindowsScript" {
-		t.Error("script not WindowsScript.")
+        switch runtime.GOOS {
+	case "windows":
+	    if name != "WindowsScript" {
+		    t.Error("script not created.")
+	    }
+	case "darwin":
+	    if name != "AppleScript" {
+		    t.Error("script not created.")
+	    }
 	}
 }
 
 func TestCreateScriptFile(t *testing.T) {
-	data := make([]byte, 0)
-	path, err := createScriptFile("hoge.html", data)
+
+	path, err := createScriptFile("empty","hoge.html")
+	if err == nil {
+		t.Error("this file should not exist because it does not exist")
+	}
+
+
+
+	path, err = createScriptFile("files/mac/ITunesTransport.scpt","hoge.html")
 	if err != nil {
 		t.Error(err)
 	}
@@ -49,5 +44,4 @@ func TestCreateScriptFile(t *testing.T) {
 		t.Error("file not created.")
 	}
 }
-
 
