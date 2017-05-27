@@ -17,7 +17,7 @@ type ScriptFactory func(data []byte) (Script, error)
 
 var files = map[string]string{
 	"windows": "files/win/iTunes.js",
-	"darwin":  "files/mac/ITunesTransport.scpt",
+	"darwin":  "files/mac/itunes.js",
 }
 
 var factory = map[string]ScriptFactory{
@@ -77,7 +77,7 @@ type AppleScript struct {
 }
 
 func (a AppleScript) Exec(command string) ([]byte, error) {
-	return exec.Command("osascript", a.path, command).Output()
+	return exec.Command("osascript","-l","JavaScript", a.path, command).Output()
 }
 
 type WindowsScript struct {
