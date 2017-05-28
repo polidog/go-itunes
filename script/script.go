@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"fmt"
 )
 
 // script
@@ -56,6 +57,7 @@ func newWindowsScript(data []byte) (Script, error) {
 
 func createScriptFile(name string, data []byte) (string, error) {
 	dir := os.TempDir()
+	fmt.Println(dir)
 	path := filepath.Join(dir, name)
 	if exists(path) {
 		return path, nil
