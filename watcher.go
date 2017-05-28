@@ -1,30 +1,31 @@
 package itunes
 
-import "time"
+import (
+	"time"
+)
 
 type Watcher struct {
 	time int
-	current Track
+	Track Track
 }
 
-func (w *Watcher) Watch() bool {
-	result,err := Track()
-	if err == nil {
-		w.current = result.Track
-		return true
-	}
 
-	time.Sleep(w.time * time.Millisecond)
-	if &w.current == nil || !w.current.eq(result.Track) {
-		w.current = result.Track;
-		return true;
+func (w *Watcher) Watch() bool {
+	time.Sleep(time.Duration(w.time) * time.Millisecond)
+	result,err := GetTrack()
+	if err == nil {
+		if !w.Track.eq(result.Track) {
+			w.Track = result.Track;
+			return true;
+		}
 	}
 	return false;
 }
 
 
-func Watcher(time int) Watcher {
+func NewWatcher(time int) Watcher {
 	return Watcher {
 		time: time,
+		Track: Track{},
 	}
 }

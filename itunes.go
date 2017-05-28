@@ -45,7 +45,7 @@ func Previous() (Result, error) {
 	return exec("previous")
 }
 
-func Track() (Result, error) {
+func GetTrack() (Result, error) {
 	return exec("track")
 }
 
