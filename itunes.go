@@ -41,14 +41,6 @@ func Previous() (Result, error) {
 	return exec("previous")
 }
 
-func Fadeout() (Result, error) {
-	return exec("fadeout")
-}
-
-func Fadein() (Result, error) {
-	return exec("facein")
-}
-
 func Exec(command string) (Result, error) {
 	return exec(command)
 }
