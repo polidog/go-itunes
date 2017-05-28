@@ -79,7 +79,10 @@ function isPlaying() {
 function run(argv) {
     switch(argv[0]) {
         case "track":
-            return JSON.stringify(getCurrentTrack())
+            return JSON.stringify({
+                'status': true,
+                'track': getCurrentTrack()
+            });
             break;
         case "pause":
             return JSON.stringify(pausePlaying())
