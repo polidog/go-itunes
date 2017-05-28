@@ -3,17 +3,13 @@ var event = Application('System Events')
 
 
 function getCurrentTrack() {
-    if (isPlaying()) {
-        var track = app.currentTrack()
-        return {
-            name: track.name(),
-            artist: track.artist(),
-            album: track.album(),
-            category: track.category(),
-            time: track.time()
-        }
-    } else {
-        return {};
+    var track = app.currentTrack()
+    return {
+        name: track.name(),
+        artist: track.artist(),
+        album: track.album(),
+        category: track.category(),
+        time: track.time()
     }
 }
 
