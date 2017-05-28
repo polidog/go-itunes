@@ -10,14 +10,15 @@ type ItunesCommand func() ([]byte, error)
 type Track struct {
 	Album    string `json:"album"`
 	Artist   string `json:"artist"`
+	Name     string `json:"name"`
 	Category string `json:"category"`
 	Time     string `json:"time"`
 }
 
 type Result struct {
-	Status       bool   `json:"status"`
+	Status      bool   `json:"status"`
 	PlayerState string `json:"player_state"`
-	Track        Track  `json:"track"`
+	Track       Track  `json:"track"`
 }
 
 func Play() (Result, error) {
@@ -65,7 +66,6 @@ func exec(command string) (Result, error) {
 	if execErr != nil {
 		return result, execErr
 	}
-
 
 	jsonErr := json.Unmarshal(str, &result)
 	if jsonErr != nil {
