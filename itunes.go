@@ -15,6 +15,10 @@ type Track struct {
 	Time     string `json:"time"`
 }
 
+func (t Track) eq(check Track) bool {
+	return t.Artist == check.Artist && t.Name == check.Name && t.Album == check.Album
+}
+
 type Result struct {
 	Status      bool   `json:"status"`
 	PlayerState string `json:"player_state"`
@@ -39,6 +43,10 @@ func Next() (Result, error) {
 
 func Previous() (Result, error) {
 	return exec("previous")
+}
+
+func Track() (Result, error) {
+	return exec("track")
 }
 
 func Exec(command string) (Result, error) {
