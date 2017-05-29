@@ -1,32 +1,15 @@
-# go-itunes
-
-Control the golang for iTunes.
-
-inspired by [playback](https://github.com/jwalgran/playback).
-
-
-## Using
-
-```
-$ go get github.com/polidog/go-itunes
-
-```
-
-create main.go.
-
-```
 package main
 
 import (
 	"flag"
-	"github.com/polidog/go-itunes"
 	"fmt"
+	"github.com/polidog/go-itunes"
 )
 
 func main() {
 	var command string
 	flag.StringVar(&command, "f", "", "config file name.")
-	flag.Parse();
+	flag.Parse()
 	res, err := itunes.Exec(command)
 
 	if err != nil {
@@ -43,27 +26,3 @@ func main() {
 	fmt.Println("Category:", res.Track.Category)
 	fmt.Println("Time:", res.Track.Time)
 }
-
-```
-
-
-## Watch iTunes track
-
-```
-package main
-
-import (
-	"fmt"
-	"github.com/polidog/go-itunes"
-)
-
-func main() {
-	watcher := itunes.NewWatcher(800)
-	for {
-		if (watcher.Watch()) {
-			fmt.Println("change track")
-			fmt.Println(watcher.Track)
-		}
-	}
-}
-```

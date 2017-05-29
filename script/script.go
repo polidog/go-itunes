@@ -11,7 +11,6 @@ type Script interface {
 	Exec(command string) ([]byte, error)
 }
 
-
 func createScriptFile(in,out string) (string, error) {
 
 	data, err := Asset(in)
@@ -25,7 +24,7 @@ func createScriptFile(in,out string) (string, error) {
 		return path, nil
 	}
 
-	err = ioutil.WriteFile(path, data, 744)
+	err = ioutil.WriteFile(path, data, 777)
 	if err != nil {
 		return "", err
 	}
@@ -36,5 +35,4 @@ func exists(filename string) bool {
 	_, err := os.Stat(filename)
 	return err == nil
 }
-
 
