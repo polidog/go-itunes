@@ -1,24 +1,20 @@
 package script
 
 import (
-	"io/ioutil"
-	"os"
 	"os/exec"
-	"path/filepath"
-	"runtime"
 )
 
 func NewScript() (Script, error) {
 
-	in := "files/mac/ITunesTransport.scpt"
-	out := "mac_itunes.scpt"
+	in := "files/mac/itunes.js"
+	out := "mac_itunes.js"
 
 	path, err := createScriptFile(in,out)
 	if err != nil {
 		return nil, err
 	}
 
-	return WindowsScript{
+	return AppleScript{
 		path: path,
 	}, nil
 }
