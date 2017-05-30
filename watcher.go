@@ -5,27 +5,30 @@ import (
 )
 
 type Watcher struct {
-	time int
+	time  int
 	Track Track
 }
 
-
 func (w *Watcher) Watch() bool {
 	time.Sleep(time.Duration(w.time) * time.Millisecond)
-	result,err := GetTrack()
+	result, err := GetTrack()
+
+	if result.PlayerState != "playing" {
+		return false
+	}
+
 	if err == nil {
 		if !w.Track.eq(result.Track) {
-			w.Track = result.Track;
-			return true;
+			w.Track = result.Track
+			return true
 		}
 	}
-	return false;
+	return false
 }
 
-
 func NewWatcher(time int) Watcher {
-	return Watcher {
-		time: time,
+	return Watcher{
+		time:  time,
 		Track: Track{},
 	}
 }

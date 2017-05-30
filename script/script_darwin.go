@@ -7,7 +7,7 @@ import (
 func NewScript() (Script, error) {
 
 	in := "files/mac/itunes.js"
-	out := "mac_itunes.js"
+	out := "mac_111itunes.js"
 
 	path, err := createScriptFile(in,out)
 	if err != nil {

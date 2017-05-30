@@ -71,6 +71,14 @@ function playPreviousTrack() {
     }
 }
 
+function getTrack() {
+    return {
+        'status': true,
+        'track': getCurrentTrack(),
+        'player_state': app.playerState(),
+    }
+}
+
 function isPlaying() {
     return app.playerState() === 'playing'
 }
@@ -79,10 +87,7 @@ function isPlaying() {
 function run(argv) {
     switch(argv[0]) {
         case "track":
-            return JSON.stringify({
-                'status': true,
-                'track': getCurrentTrack()
-            });
+            return JSON.stringify(getTrack());
             break;
         case "pause":
             return JSON.stringify(pausePlaying())
